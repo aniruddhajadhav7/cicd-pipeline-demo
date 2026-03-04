@@ -68,7 +68,7 @@ spec:
         - name: cicd-pipeline-demo
           # ── Image ──────────────────────────────────────────────────────────
           # The CI/CD pipeline replaces this line with the exact SHA-tagged image.
-          image: your_actual_dockerhub_username/cicd-pipeline-demo:latest
+          image: aniruddhaaj7/cicd-pipeline-demo:latest
           imagePullPolicy: Always
 
           # ── Port ───────────────────────────────────────────────────────────
