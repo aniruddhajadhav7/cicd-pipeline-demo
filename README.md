@@ -71,20 +71,20 @@ This is exactly the workflow used by real-world DevOps and platform engineering 
 │   Repository: cicd-pipeline-demo                                        │
 │   Branch:     main                                                      │
 │                                                                         │
-│   Triggers GitHub Actions Workflow on push event ──────────────────┐   │
-└────────────────────────────────────────────────────────────────────┼───┘
+│   Triggers GitHub Actions Workflow on push event ──────────────────┐    │
+└────────────────────────────────────────────────────────────────────┼─── ┘
                                                                      │
                                                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                       GitHub Actions (CI/CD Runner)                     │
 │                                                                         │
-│   ┌──────────────┐    ┌───────────────────┐    ┌────────────────────┐  │
-│   │  Job 1       │    │  Job 2            │    │  Job 3             │  │
-│   │  🧪 TEST     │───▶│  🐳 BUILD & PUSH  │───▶│  ☸️  DEPLOY        │  │
-│   │              │    │                   │    │                    │  │
-│   │ npm install  │    │ docker build      │    │ kubectl apply      │  │
-│   │ npm test     │    │ docker push       │    │ rollout status     │  │
-│   └──────────────┘    └─────────┬─────────┘    └────────────────────┘  │
+│   ┌──────────────┐    ┌───────────────────┐    ┌────────────────────┐   │
+│   │  Job 1       │    │  Job 2            │    │  Job 3             │   │
+│   │  🧪 TEST     │───▶│  🐳 BUILD & PUSH  │───▶│  ☸️  DEPLOY       │   │
+│   │              │    │                   │    │                    │   │
+│   │ npm install  │    │ docker build      │    │ kubectl apply      │   │
+│   │ npm test     │    │ docker push       │    │ rollout status     │   │
+│   └──────────────┘    └─────────┬─────────┘    └────────────────────┘   │
 └─────────────────────────────────┼───────────────────────────────────────┘
                                   │
                                   ▼
@@ -92,7 +92,7 @@ This is exactly the workflow used by real-world DevOps and platform engineering 
 │                          Docker Hub (Registry)                          │
 │                                                                         │
 │   yourname/cicd-pipeline-demo:latest                                    │
-│   yourname/cicd-pipeline-demo:sha-a1b2c3d                              │
+│   yourname/cicd-pipeline-demo:sha-a1b2c3d                               │
 └─────────────────────────────────┬───────────────────────────────────────┘
                                   │  image pull
                                   ▼
@@ -101,25 +101,25 @@ This is exactly the workflow used by real-world DevOps and platform engineering 
 │                                                                         │
 │   Namespace: default                                                    │
 │                                                                         │
-│   ┌──────────────────────────────────────────────┐                     │
-│   │  Deployment: cicd-pipeline-demo              │                     │
-│   │                                              │                     │
-│   │   ┌──────────────┐  ┌──────────────┐         │                     │
-│   │   │  Pod 1       │  │  Pod 2       │  ···   │                     │
-│   │   │  Node.js App │  │  Node.js App │         │                     │
-│   │   │  Port 3000   │  │  Port 3000   │         │                     │
-│   │   └──────────────┘  └──────────────┘         │                     │
-│   └──────────────────────────────────────────────┘                     │
+│   ┌──────────────────────────────────────────────┐                      │
+│   │  Deployment: cicd-pipeline-demo              │                      │
+│   │                                              │                      │
+│   │   ┌──────────────┐  ┌──────────────┐         │                      │
+│   │   │  Pod 1       │  │  Pod 2       │  ···   │                       │
+│   │   │  Node.js App │  │  Node.js App │         │                      │
+│   │   │  Port 3000   │  │  Port 3000   │         │                      │
+│   │   └──────────────┘  └──────────────┘         │                      │
+│   └──────────────────────────────────────────────┘                      │
 │                                                                         │
-│   ┌──────────────────────────────────────────────┐                     │
-│   │  Service: cicd-pipeline-demo-service         │                     │
-│   │  Type: LoadBalancer  Port: 80 → 3000         │                     │
-│   └──────────────────────────────────────────────┘                     │
+│   ┌──────────────────────────────────────────────┐                      │
+│   │  Service: cicd-pipeline-demo-service         │                      │
+│   │  Type: LoadBalancer  Port: 80 → 3000         │                      │
+│   └──────────────────────────────────────────────┘                      │
 │                                                                         │
-│   ┌──────────────────────────────────────────────┐                     │
-│   │  HPA: cicd-pipeline-demo-hpa                 │                     │
-│   │  Min: 2 replicas  Max: 10  CPU target: 70%   │                     │
-│   └──────────────────────────────────────────────┘                     │
+│   ┌──────────────────────────────────────────────┐                      │
+│   │  HPA: cicd-pipeline-demo-hpa                 │                      │
+│   │  Min: 2 replicas  Max: 10  CPU target: 70%   │                      │
+│   └──────────────────────────────────────────────┘                      │
 └──────────────────────────────────────────────────┬──────────────────────┘
                                                    │
                                                    ▼
@@ -933,9 +933,9 @@ This project is licensed under the **MIT License** — feel free to fork, modify
 ## 🙋 Author
 
 **Your Name**
-- GitHub: [@your-username](https://github.com/your-username)
-- LinkedIn: [linkedin.com/in/your-profile](https://linkedin.com/in/your-profile)
-- Docker Hub: [hub.docker.com/u/your-username](https://hub.docker.com/u/your-username)
+- GitHub: [@your-username](https://github.com/Aniruddhajadhav7)
+- LinkedIn: [linkedin.com/in/your-profile](https://linkedin.com/in/aniruddhajadhav7)
+- Docker Hub: [hub.docker.com/u/your-username](https://hub.docker.com/u/aniruddhaaj7)
 
 ---
 
