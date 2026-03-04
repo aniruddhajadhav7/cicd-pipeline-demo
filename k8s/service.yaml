@@ -1,0 +1,76 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Kubernetes Service
+#
+# A Service gives your Deployment a stable network endpoint.
+# Even when pods are replaced (rolling update, crash, scale), the Service
+# IP and port stay the same — it automatically routes to healthy pods.
+#
+# Type: LoadBalancer
+#   • On cloud providers (GKE, EKS, AKS) → provisions a cloud load balancer.
+#   • On Minikube → use `minikube tunnel` to expose it on localhost.
+#   • On Kind    → use a NodePort or port-forward instead.
+# ─────────────────────────────────────────────────────────────────────────────
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: cicd-pipeline-demo-service
+  namespace: default
+  labels:
+    app: cicd-pipeline-demo
+    managed-by: github-actions
+  annotations:
+    description: "Exposes the CI/CD Pipeline Demo app to external traffic"
+
+spec:
+  # ── Selector ──────────────────────────────────────────────────────────────
+  # Routes traffic to pods whose labels match app=cicd-pipeline-demo.
+  selector:
+    app: cicd-pipeline-demo
+
+  # ── Ports ─────────────────────────────────────────────────────────────────
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80           # External-facing port (what clients connect to)
+      targetPort: 3000   # Port on the container (must match containerPort)
+
+  # ── Type ──────────────────────────────────────────────────────────────────
+  # LoadBalancer → cloud load balancer (or minikube tunnel on local)
+  # Change to NodePort for Kind / bare-metal clusters.
+  type: LoadBalancer
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# (Optional) Horizontal Pod Autoscaler
+#
+# Automatically scales the number of replicas between 2 and 10
+# based on CPU utilisation. Requires the metrics-server add-on.
+# Enable this once your cluster has metrics-server installed:
+#   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name: cicd-pipeline-demo-hpa
+  namespace: default
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cicd-pipeline-demo
+
+  minReplicas: 2
+  maxReplicas: 10
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70   # Scale out when average CPU > 70%

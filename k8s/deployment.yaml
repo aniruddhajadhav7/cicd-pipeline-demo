@@ -1,0 +1,144 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Kubernetes Deployment
+#
+# This manifest tells Kubernetes HOW to run our application:
+#   - How many replicas (instances) to keep running
+#   - Which Docker image to use
+#   - Resource limits (CPU / memory)
+#   - Health-check probes (liveness & readiness)
+#   - Rolling-update strategy (zero-downtime deployments)
+#   - Environment variable injection
+#   - Graceful shutdown configuration
+# ─────────────────────────────────────────────────────────────────────────────
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: cicd-pipeline-demo
+  namespace: default
+  labels:
+    app: cicd-pipeline-demo
+    version: "1.0.0"
+    managed-by: github-actions
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    description: "Node.js Express app — CI/CD pipeline demo"
+
+spec:
+  # ── Replicas ───────────────────────────────────────────────────────────────
+  replicas: 2         # Run 2 pods for high-availability
+
+  # ── Selector ──────────────────────────────────────────────────────────────
+  selector:
+    matchLabels:
+      app: cicd-pipeline-demo
+
+  # ── Rolling Update Strategy ───────────────────────────────────────────────
+  # Kubernetes replaces pods one by one.
+  # maxUnavailable: 0  → never take a pod down before a replacement is Ready.
+  # maxSurge: 1        → allow 1 extra pod during the transition.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+
+  # ── Pod Template ──────────────────────────────────────────────────────────
+  template:
+    metadata:
+      labels:
+        app: cicd-pipeline-demo
+        version: "1.0.0"
+      annotations:
+        # Force a rolling restart when this value changes (even with same image tag)
+        rollme: "{{ randAlphaNum 5 | quote }}"
+
+    spec:
+      # Graceful shutdown window — allows in-flight requests to complete
+      terminationGracePeriodSeconds: 30
+
+      # Security context for the whole pod
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+
+      containers:
+        - name: cicd-pipeline-demo
+          # ── Image ──────────────────────────────────────────────────────────
+          # The CI/CD pipeline replaces this line with the exact SHA-tagged image.
+          image: your_actual_dockerhub_username/cicd-pipeline-demo:latest
+          imagePullPolicy: Always
+
+          # ── Port ───────────────────────────────────────────────────────────
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+
+          # ── Environment Variables ─────────────────────────────────────────
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+            - name: APP_VERSION
+              value: "1.0.0"
+
+          # ── Resource Requests & Limits ────────────────────────────────────
+          # Requests: guaranteed resources Kubernetes allocates for this pod.
+          # Limits:   hard cap — container is killed / throttled if exceeded.
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+
+          # ── Liveness Probe ────────────────────────────────────────────────
+          # If this fails, Kubernetes RESTARTS the container.
+          # Checks that the app hasn't entered a deadlock / crashed state.
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15    # Wait 15s after container start
+            periodSeconds: 20          # Check every 20s
+            failureThreshold: 3        # Restart after 3 consecutive failures
+            timeoutSeconds: 5
+
+          # ── Readiness Probe ───────────────────────────────────────────────
+          # If this fails, Kubernetes REMOVES the pod from the Service's
+          # load balancer — no traffic is routed to it until it recovers.
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 3
+
+          # ── Security Context (container-level) ────────────────────────────
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+
+      # Spread pods across nodes when multiple nodes exist
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - cicd-pipeline-demo
+                topologyKey: kubernetes.io/hostname

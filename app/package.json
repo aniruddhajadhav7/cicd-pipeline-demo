@@ -1,0 +1,43 @@
+{
+  "name": "cicd-pipeline-demo",
+  "version": "1.0.0",
+  "description": "A production-style Node.js app demonstrating End-to-End CI/CD with Docker, GitHub Actions, and Kubernetes.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest --forceExit --detectOpenHandles --coverage",
+    "lint": "eslint src/**/*.js tests/**/*.js"
+  },
+  "keywords": [
+    "cicd",
+    "docker",
+    "kubernetes",
+    "github-actions",
+    "devops",
+    "nodejs"
+  ],
+  "author": "Aniruddha Jadhav",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "nodemon": "^3.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
