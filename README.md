@@ -930,13 +930,14 @@ This project is licensed under the **MIT License** — feel free to fork, modify
 
 ---
 
-## 🙋 Author
+# Author
 
-**Your Name**
-- GitHub: [@your-username](https://github.com/aniruddhajadhav7)
-- LinkedIn: [linkedin.com/in/your-profile](https://linkedin.com/in/aniruddhajadhav7)
-- Docker Hub: [hub.docker.com/u/your-username](https://hub.docker.com/u/aniruddhaaj7)
-  
+**Aniruddha Adhikrao Jadhav**
+
+- GitHub: [@aniruddhajadhav7](https://github.com/aniruddhajadhav7)
+- LinkedIn: [@aniruddhajadhav7](https://linkedin.com/in/aniruddhajadhav7)
+- Docker Hub: [@aniruddhaaj7](https://hub.docker.com/u/aniruddhaaj7)
+ 
 
 ---
 
