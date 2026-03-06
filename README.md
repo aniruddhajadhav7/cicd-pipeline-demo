@@ -827,40 +827,6 @@ This prints a URL you can open directly in a browser.
 
 ---
 
-## 📸 Screenshots
-
-> Add screenshots of your running pipeline below. Replace the placeholders with actual images.
-
-### CI/CD Pipeline — All Jobs Passing
-
-```
-[ Screenshot: GitHub Actions workflow page showing all three jobs
-  (Test ✅, Build & Push ✅, Deploy ✅) with green checkmarks ]
-```
-
-### Docker Hub — Image Tags
-
-```
-[ Screenshot: Docker Hub repository page showing
-  'latest' and 'sha-xxxxxxx' tags with push timestamps ]
-```
-
-### Kubernetes — Running Pods
-
-```
-[ Screenshot: Terminal output of `kubectl get pods`
-  showing 2/2 pods in Running state ]
-```
-
-### Live Application
-
-```
-[ Screenshot: Browser or curl output showing the JSON response
-  from http://<EXTERNAL-IP>/ ]
-```
-
----
-
 ## 🔧 Troubleshooting
 
 ### Docker build fails with "tests failed"
