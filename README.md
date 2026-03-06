@@ -909,7 +909,7 @@ This project is licensed under the **MIT License** — feel free to fork, modify
 
 <div align="center">
 
-⭐ **If this project helped you, please give it a star!** ⭐
+
 
 *Built to demonstrate production DevOps practices — Docker · GitHub Actions · Kubernetes*
 
