@@ -51,7 +51,7 @@ spec:
         app: cicd-pipeline-demo
         version: "1.0.0"
       annotations:
-        # Force a rolling restart when this value changes (even with same image tag)
+        # Force a rolling restart when this value changes (also with same image tag)
         rollme: "{{ randAlphaNum 5 | quote }}"
 
     spec:
