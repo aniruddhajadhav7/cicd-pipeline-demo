@@ -15,7 +15,9 @@
     "kubernetes",
     "github-actions",
     "devops",
-    "nodejs"
+    "nodejs",
+    "operations",
+    "monitoring"
   ],
   "author": "Aniruddha Jadhav",
   "license": "MIT",
